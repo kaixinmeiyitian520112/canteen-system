@@ -22,7 +22,7 @@ public class Main {
         System.out.println("\n");
         System.out.println("  ╔════════════════════════════════════════╗");
         System.out.println("  ║                                        ║");
-        System.out.println("  ║   校园食堂「光盘」行动智能推荐系统       ║");
+        System.out.println("  ║   校园食堂「光盘」行动智能推荐系统           ║");
         System.out.println("  ║           Sprint 1 - MVP 版本           ║");
         System.out.println("  ║                                        ║");
         System.out.println("  ╚════════════════════════════════════════╝");

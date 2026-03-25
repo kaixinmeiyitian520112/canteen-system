@@ -1,0 +1,15 @@
+# 编译输出
+out/
+*.class
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# 数据文件（可选，如果需要保留数据则删除此行）
+data/
+
+# 系统文件
+.DS_Store
+Thumbs.db
