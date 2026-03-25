@@ -3,6 +3,7 @@ package com.canteen.entity;
 /**
  * 用户实体类
  * 用于存储用户账号信息
+ * 加油努力3
  */
 public class User {
     private String username;      // 账号
