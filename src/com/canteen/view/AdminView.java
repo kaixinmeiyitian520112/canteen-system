@@ -1,0 +1,57 @@
+package com.canteen.view;
+
+import com.canteen.entity.User;
+import com.canteen.service.OrderService;
+
+import java.util.Scanner;
+
+/**
+ * 管理员控制台视图
+ * 负责管理员端的交互界面
+ */
+public class AdminView {
+    private User currentUser;
+    private OrderService orderService;
+    private Scanner scanner;
+
+    public AdminView(User user) {
+        this.currentUser = user;
+        this.orderService = new OrderService();
+        this.scanner = new Scanner(System.in);
+    }
+
+    /**
+     * 显示管理员主菜单
+     */
+    public void showMainMenu() {
+        System.out.println("\n╔══════════════════════════════════╗");
+        System.out.println("║   欢迎，" + currentUser.getName() + "！          ║");
+        System.out.println("║      食堂管理后台                ║");
+        System.out.println("╚══════════════════════════════════╝");
+    }
+
+    /**
+     * 运行管理员界面
+     */
+    public void run() {
+        showMainMenu();
+        
+        while (true) {
+            System.out.println("\n--- 管理员菜单 ---");
+            System.out.println("  1. 查看订餐统计报表");
+            System.out.println("  2. 退出登录");
+            System.out.print("请选择 (1/2): ");
+            
+            String choice = scanner.nextLine().trim();
+            
+            if ("1".equals(choice)) {
+                orderService.printStatistics();
+            } else if ("2".equals(choice)) {
+                System.out.println("\n👋 感谢使用，再见！");
+                break;
+            } else {
+                System.out.println("❌ 无效选择，请重新输入。");
+            }
+        }
+    }
+}
