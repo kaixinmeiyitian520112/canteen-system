@@ -1,11 +1,11 @@
 # GitHub Actions CI/CD 配置文件
 # 实现每次 PR 自动触发编译与单元测试，确保主干（develop）持续处于 Green Build 状态
 
-name: Java CI with Maven
+name: Java CI
 
 on:
   push:
-    branches: [ "develop", "main", "master" ]
+    branches: [ "develop", "main", "master", "feature/*" ]
   pull_request:
     branches: [ "develop", "main", "master" ]
 
@@ -24,33 +24,21 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
-        cache: maven
     
-    # 3. 赋予构建脚本执行权限
-    - name: Grant execute permission for scripts
-      run: chmod +x build.bat
-    
-    # 4. 编译项目
+    # 3. 编译项目
     - name: Build with javac
       run: |
         mkdir -p out
         javac -d out -encoding UTF-8 -sourcepath src $(find src -name "*.java")
     
-    # 5. 运行测试（如果有测试框架）
-    - name: Run tests
-      run: |
-        echo "Running unit tests..."
-        # 如果后续添加了 JUnit 测试，可以在这里执行
-        # java -cp out:lib/junit.jar org.junit.runner.JUnitCore TestSuite
-    
-    # 6. 验证编译产物
+    # 4. 验证编译产物
     - name: Verify build artifacts
       run: |
-        if [ -d "out" ]; then
+        if [ -d "out" ] && [ "$(ls -A out)" ]; then
           echo "Build successful - compiled classes found in out/"
           ls -la out/
         else
-          echo "Build failed - out/ directory not found"
+          echo "Build failed - out/ directory not found or empty"
           exit 1
         fi
 
