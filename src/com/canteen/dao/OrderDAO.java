@@ -11,7 +11,22 @@ import java.util.List;
  * 负责订单数据的文件读写操作
  */
 public class OrderDAO {
-    private static final String FILE_PATH = "data/orders.txt";
+    private static final String FILE_PATH = getFilePath("orders.txt");
+    
+    /**
+     * 获取用户主目录路径（兼容不同运行环境）
+     */
+    private static String getUserHomePath() {
+        String userDir = System.getProperty("user.dir");
+        return userDir.endsWith(File.separator) ? userDir : userDir + File.separator;
+    }
+    
+    /**
+     * 获取文件路径
+     */
+    private static String getFilePath(String fileName) {
+        return getUserHomePath() + "data" + File.separator + fileName;
+    }
 
     /**
      * 读取所有订单数据

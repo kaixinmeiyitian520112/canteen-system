@@ -1,22 +1,30 @@
 package com.canteen.view;
 
 import com.canteen.entity.User;
-import com.canteen.service.OrderService;
-
+import com.canteen.service.ReportService;
 import java.util.Scanner;
 
 /**
  * 管理员控制台视图
  * 负责管理员端的交互界面
+ * 
+ * 重构说明：
+ * - 支持依赖注入，便于单元测试
+ * - 使用 ReportService 替代 OrderService 进行统计
  */
 public class AdminView {
     private User currentUser;
-    private OrderService orderService;
+    private ReportService reportService;
     private Scanner scanner;
 
-    public AdminView(User user) {
+    /**
+     * 构造函数注入依赖
+     * @param user 当前用户
+     * @param reportService 报表服务
+     */
+    public AdminView(User user, ReportService reportService) {
         this.currentUser = user;
-        this.orderService = new OrderService();
+        this.reportService = reportService;
         this.scanner = new Scanner(System.in);
     }
 
@@ -35,17 +43,17 @@ public class AdminView {
      */
     public void run() {
         showMainMenu();
-        
+
         while (true) {
             System.out.println("\n--- 管理员菜单 ---");
             System.out.println("  1. 查看订餐统计报表");
             System.out.println("  2. 退出登录");
             System.out.print("请选择 (1/2): ");
-            
+
             String choice = scanner.nextLine().trim();
-            
+
             if ("1".equals(choice)) {
-                orderService.printStatistics();
+                reportService.printReport();
             } else if ("2".equals(choice)) {
                 System.out.println("\n👋 感谢使用，再见！");
                 break;

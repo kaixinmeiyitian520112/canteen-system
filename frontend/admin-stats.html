@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理员统计 - 校园食堂智能推荐系统</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { background-color: #f8f9fa; }
+    .stat-card { border-left: 4px solid; }
+    .stat-card.primary { border-left-color: #0d6efd; }
+    .stat-card.success { border-left-color: #198754; }
+    .stat-card.warning { border-left-color: #ffc107; }
+    .chart-container { position: relative; height: 400px; }
+    .date-selector { max-width: 200px; }
+  </style>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">📊 管理员统计面板</a>
+      <div class="d-flex align-items-center">
+        <span class="text-white me-3" id="userInfo">管理员</span>
+        <button class="btn btn-outline-light" onclick="logout()">退出登录</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <div class="container my-4">
+    <!-- 日期选择与刷新 -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>📈 订餐统计报表</h2>
+      <div class="d-flex gap-2">
+        <input type="date" class="form-control date-selector" id="dateSelector" value="2026-04-15">
+        <button class="btn btn-primary" onclick="loadStatistics()">🔄 刷新数据</button>
+      </div>
+    </div>
+
+    <!-- 加载状态 -->
+    <div id="loading" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">加载中...</span>
+      </div>
+      <p class="mt-3">正在加载统计数据...</p>
+    </div>
+
+    <!-- 统计内容 -->
+    <div id="statisticsContent" style="display: none;">
+      <!-- 概览卡片 -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <div class="card stat-card primary shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted">订单总数</h6>
+                  <h2 class="mb-0" id="totalOrders">0</h2>
+                </div>
+                <div class="fs-1 text-primary opacity-25">📦</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card stat-card success shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted">订餐人数</h6>
+                  <h2 class="mb-0" id="totalUsers">0</h2>
+                </div>
+                <div class="fs-1 text-success opacity-25">👥</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card stat-card warning shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted">菜品种类</h6>
+                  <h2 class="mb-0" id="totalDishes">0</h2>
+                </div>
+                <div class="fs-1 text-warning opacity-25">🍽️</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 图表区 -->
+      <div class="row g-4">
+        <!-- 柱状图 -->
+        <div class="col-md-8">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h5 class="mb-0">📊 菜品需求量排行</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="dishChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 饼图 -->
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <div class="card-header">
+              <h5 class="mb-0">🥧 份量分布</h5>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="portionChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 详细数据表格 -->
+      <div class="card shadow-sm mt-4">
+        <div class="card-header">
+          <h5 class="mb-0">📋 菜品需求明细</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead class="table-light">
+                <tr>
+                  <th>菜品 ID</th>
+                  <th>菜品名称</th>
+                  <th>总需求量</th>
+                  <th>整份</th>
+                  <th>半份</th>
+                  <th>占比</th>
+                </tr>
+              </thead>
+              <tbody id="dishTableBody">
+                <!-- 动态渲染 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/admin-stats.js"></script>
+</body>
+</html>

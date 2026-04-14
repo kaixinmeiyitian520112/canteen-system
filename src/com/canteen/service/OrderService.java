@@ -4,24 +4,27 @@ import com.canteen.dao.OrderDAO;
 import com.canteen.entity.Dish;
 import com.canteen.entity.Order;
 import com.canteen.entity.User;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 订单服务类
- * 负责订单处理和统计报表
+ * 负责订单创建和提交
+ * 
+ * 重构说明：
+ * - 移除统计相关方法（已拆分到 ReportService）
+ * - 移除不必要的 DishService 依赖
+ * - 单一职责：只负责订单创建和提交
  */
 public class OrderService {
     private OrderDAO orderDAO;
-    private DishService dishService;
 
-    public OrderService() {
-        this.orderDAO = new OrderDAO();
-        this.dishService = new DishService();
+    /**
+     * 构造函数注入 OrderDAO
+     * @param orderDAO 订单数据访问对象
+     */
+    public OrderService(OrderDAO orderDAO) {
+        this.orderDAO = orderDAO;
     }
 
     /**
@@ -68,74 +71,5 @@ public class OrderService {
      */
     public boolean submitOrder(Order order) {
         return orderDAO.saveOrder(order);
-    }
-
-    /**
-     * 获取统计报表数据
-     * @return 统计结果 Map
-     */
-    public Map<String, Object> getStatistics() {
-        List<Order> orders = orderDAO.readAllOrders();
-        
-        Map<String, Object> result = new HashMap<>();
-        Map<String, Double> dishStats = new HashMap<>();  // 菜品名称 -> 总份数
-        Map<String, String> uniqueStudents = new HashMap<>();  // 去重学生
-
-        for (Order order : orders) {
-            // 统计学生人数（去重）
-            uniqueStudents.put(order.getUsername(), order.getStudentName());
-            
-            // 统计菜品份量
-            String dishName = order.getDishName();
-            double portion = 1.0;
-            if ("half".equals(order.getPortion())) {
-                portion = 0.5;
-            }
-            
-            if (dishStats.containsKey(dishName)) {
-                dishStats.put(dishName, dishStats.get(dishName) + portion);
-            } else {
-                dishStats.put(dishName, portion);
-            }
-        }
-
-        result.put("totalStudents", uniqueStudents.size());
-        result.put("dishStats", dishStats);
-        result.put("totalOrders", orders.size());
-
-        return result;
-    }
-
-    /**
-     * 打印统计报表
-     */
-    public void printStatistics() {
-        Map<String, Object> stats = getStatistics();
-        
-        System.out.println("\n========== 订餐统计报表 ==========");
-        System.out.println("📊 统计日期：" + getTomorrowDate());
-        System.out.println("----------------------------------");
-        System.out.println("👥 订餐总人数：" + stats.get("totalStudents") + " 人");
-        System.out.println("📝 订单总数：" + stats.get("totalOrders") + " 单");
-        System.out.println("----------------------------------");
-        System.out.println("🍽️  各菜品需求量：");
-        
-        @SuppressWarnings("unchecked")
-        Map<String, Double> dishStats = (Map<String, Double>) stats.get("dishStats");
-        
-        if (dishStats.isEmpty()) {
-            System.out.println("  暂无订单数据");
-        } else {
-            for (Map.Entry<String, Double> entry : dishStats.entrySet()) {
-                String dishName = entry.getKey();
-                double total = entry.getValue();
-                String portionText = total % 1 == 0 ? 
-                        String.format("%.0f 整份", total) : 
-                        String.format("%.1f 份", total);
-                System.out.printf("  - %-12s: %s%n", dishName, portionText);
-            }
-        }
-        
-        System.out.println("==================================\n");
     }
 }

@@ -5,12 +5,15 @@ import com.canteen.entity.Order;
 import com.canteen.entity.User;
 import com.canteen.service.DishService;
 import com.canteen.service.OrderService;
-
 import java.util.Scanner;
 
 /**
  * 学生控制台视图
  * 负责学生端的交互界面
+ * 
+ * 重构说明：
+ * - 支持依赖注入，便于单元测试
+ * - 移除直接 new Service 的硬编码
  */
 public class StudentView {
     private User currentUser;
@@ -18,10 +21,16 @@ public class StudentView {
     private OrderService orderService;
     private Scanner scanner;
 
-    public StudentView(User user) {
+    /**
+     * 构造函数注入依赖
+     * @param user 当前用户
+     * @param dishService 菜品服务
+     * @param orderService 订单服务
+     */
+    public StudentView(User user, DishService dishService, OrderService orderService) {
         this.currentUser = user;
-        this.dishService = new DishService();
-        this.orderService = new OrderService();
+        this.dishService = dishService;
+        this.orderService = orderService;
         this.scanner = new Scanner(System.in);
     }
 
@@ -40,10 +49,10 @@ public class StudentView {
      */
     public void showOrderMenu() {
         dishService.printDishes();
-        
+
         System.out.print("请选择菜品编号 (1-" + dishService.getAllDishes().size() + "): ");
         String dishChoice = scanner.nextLine().trim();
-        
+
         int dishIndex;
         try {
             dishIndex = Integer.parseInt(dishChoice);
@@ -79,11 +88,11 @@ public class StudentView {
         // 确认订单
         System.out.print("确认提交订单？(y/n): ");
         String confirm = scanner.nextLine().trim().toLowerCase();
-        
+
         if ("y".equals(confirm) || "yes".equals(confirm)) {
             Order order = orderService.createOrder(currentUser, selectedDish, portion);
             boolean success = orderService.submitOrder(order);
-            
+
             if (success) {
                 System.out.println("\n✅ 订单提交成功！");
                 System.out.println("   订单号：" + order.getOrderId());
@@ -104,15 +113,15 @@ public class StudentView {
      */
     public void run() {
         showMainMenu();
-        
+
         while (true) {
             System.out.println("\n--- 学生菜单 ---");
             System.out.println("  1. 查看菜品并订餐");
             System.out.println("  2. 退出登录");
             System.out.print("请选择 (1/2): ");
-            
+
             String choice = scanner.nextLine().trim();
-            
+
             if ("1".equals(choice)) {
                 showOrderMenu();
             } else if ("2".equals(choice)) {

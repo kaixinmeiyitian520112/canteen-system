@@ -1,26 +1,44 @@
 package com.canteen.service;
 
+import com.canteen.dao.UserDAO;
 import com.canteen.entity.User;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 用户登录服务类
  * 负责用户身份验证和角色管理
+ * 
+ * 重构说明：
+ * - 移除硬编码的 USERS Map
+ * - 通过 UserDAO 接口访问用户数据
+ * - 支持依赖注入，便于测试
  */
 public class LoginService {
-    // 硬编码测试账号
-    private static final Map<String, User> USERS = new HashMap<>();
+    private UserDAO userDAO;
 
-    static {
-        // 学生账号
-        USERS.put("stu1", new User("stu1", "123456", "student", "张三"));
-        USERS.put("stu2", new User("stu2", "123456", "student", "李四"));
-        USERS.put("stu3", new User("stu3", "123456", "student", "王五"));
-        
-        // 管理员账号
-        USERS.put("admin", new User("admin", "123456", "admin", "管理员"));
+    /**
+     * 默认构造函数，使用 FileUserDAO
+     */
+    public LoginService() {
+        this.userDAO = null; // 懒加载
+    }
+
+    /**
+     * 构造函数注入 UserDAO
+     * @param userDAO 用户数据访问对象
+     */
+    public LoginService(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    /**
+     * 获取 UserDAO（懒加载）
+     */
+    private UserDAO getUserDAO() {
+        if (userDAO == null) {
+            // 为了向后兼容，如果没有注入 DAO，使用默认测试数据
+            return new com.canteen.dao.impl.FileUserDAO();
+        }
+        return userDAO;
     }
 
     /**
@@ -34,13 +52,15 @@ public class LoginService {
             System.out.println("❌ 账号不能为空！");
             return null;
         }
-        
+
         if (password == null || password.trim().isEmpty()) {
             System.out.println("❌ 密码不能为空！");
             return null;
         }
 
-        User user = USERS.get(username.trim());
+        UserDAO dao = getUserDAO();
+        User user = dao.findByUsername(username);
+        
         if (user == null) {
             System.out.println("❌ 账号不存在！");
             return null;
@@ -56,18 +76,28 @@ public class LoginService {
     }
 
     /**
-     * 获取测试账号列表
+     * 获取测试账号列表（从文件读取）
      * @return 账号信息字符串
      */
     public String getTestAccounts() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n========== 测试账号 ==========\n");
-        sb.append("学生账号：\n");
-        sb.append("  账号：stu1, 密码：123456 (张三)\n");
-        sb.append("  账号：stu2, 密码：123456 (李四)\n");
-        sb.append("  账号：stu3, 密码：123456 (王五)\n");
-        sb.append("管理员账号：\n");
-        sb.append("  账号：admin, 密码：123456\n");
+        
+        UserDAO dao = getUserDAO();
+        java.util.List<User> users = dao.findAll();
+        
+        if (users.isEmpty()) {
+            sb.append("暂无用户数据，请先创建用户文件\n");
+        } else {
+            for (User user : users) {
+                sb.append(String.format("  账号：%s, 密码：%s (%s) - 角色：%s\n",
+                        user.getUsername(),
+                        user.getPassword(),
+                        user.getName(),
+                        user.getRole()));
+            }
+        }
+        
         sb.append("==============================\n");
         return sb.toString();
     }

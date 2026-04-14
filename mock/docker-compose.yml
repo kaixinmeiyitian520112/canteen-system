@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  # Prism Mock 服务器
+  prism-mock:
+    image: stoplight/prism:4
+    ports:
+      - "4010:4010"
+    volumes:
+      - ../api/openapi.yaml:/api/openapi.yaml:ro
+    command: "mock -h 0.0.0.0 /api/openapi.yaml"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4010/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
