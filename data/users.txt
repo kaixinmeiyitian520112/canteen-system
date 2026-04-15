@@ -1,0 +1,5 @@
+账号,密码,角色,姓名
+stu1,123456,student，张三
+stu2,123456,student，李四
+stu3,123456,student，王五
+admin,123456,admin，管理员
