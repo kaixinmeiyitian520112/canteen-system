@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  title: 校园食堂订餐系统 API
+  version: 1.0.0
+  description: 食堂订餐系统后端接口契约
+
+servers:
+  - url: http://localhost:8080/api
+    description: 开发服务器
+
+paths:
+  /auth/login:
+    post:
+      summary: 用户登录
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: 登录成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /dishes:
+    get:
+      summary: 获取所有菜品
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dish'
+
+  /orders:
+    post:
+      summary: 创建订单
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+      responses:
+        '200':
+          description: 订单创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+
+  /reports/statistics:
+    get:
+      summary: 获取统计报表
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Statistics'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+          enum: [student, admin]
+
+    Dish:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+
+    OrderRequest:
+      type: object
+      properties:
+        dishId:
+          type: string
+        portion:
+          type: string
+          enum: [whole, half]
+
+    Order:
+      type: object
+      properties:
+        orderId:
+          type: string
+        username:
+          type: string
+        studentName:
+          type: string
+        dishName:
+          type: string
+        portion:
+          type: string
+        price:
+          type: number
+        date:
+          type: string
+
+    Statistics:
+      type: object
+      properties:
+        totalStudents:
+          type: integer
+        totalOrders:
+          type: integer
+        dishStats:
+          type: object
+          additionalProperties:
+            type: number
