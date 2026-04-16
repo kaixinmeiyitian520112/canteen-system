@@ -5,8 +5,8 @@ info:
   description: 食堂订餐系统后端接口契约
 
 servers:
-  - url: http://localhost:8080/api
-    description: 开发服务器
+  - url: http://localhost:4010/api
+    description: Mock 服务器
 
 paths:
   /auth/login:
