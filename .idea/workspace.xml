@@ -11,11 +11,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcf460d0-8c67-464f-bbd4-e92fe5836b1f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/openai.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/canteen/service/DishServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/frontend-mock/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/canteen/mock/ApiMockTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/openai.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/canteen-1.0-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/canteen-1.0-SNAPSHOT.war" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +28,8 @@
         <option value="Jspx File" />
         <option value="Jsp File" />
         <option value="JavaScript File" />
-        <option value="HTML File" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -67,11 +67,12 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "JUnit.All in canteen.executor": "Run",
     "JavaScript Debug.admit-stats.html.executor": "Run",
+    "JavaScript Debug.index.html.executor": "Run",
     "JavaScript Debug.login.html.executor": "Run",
     "JavaScript Debug.student-login.html.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Tomcat Server.Tomcat 10.1.53.executor": "Run",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "develop",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/java/canteen",
     "node.js.detected.package.eslint": "true",
@@ -86,7 +87,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.All in canteen">
+  <component name="RunManager">
     <configuration name="All in canteen" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="canteen" />
       <option name="PACKAGE_NAME" value="" />
@@ -214,6 +215,7 @@
       <workItem from="1776227695486" duration="4281000" />
       <workItem from="1776233431216" duration="768000" />
       <workItem from="1776237408809" duration="2336000" />
+      <workItem from="1776310979849" duration="2642000" />
     </task>
     <servers />
   </component>
