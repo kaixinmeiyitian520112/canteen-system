@@ -1,4 +1,3 @@
-```markdown
 # 校园食堂订餐系统
 
 > 基于 Java 11 + 文件存储的控制台订餐系统  
@@ -8,24 +7,7 @@
 
 ## 📐 系统架构图（模块关系）
 
-```mermaid
-flowchart TD
-    Main["Main (依赖组装入口)"] --> LS["LoginService"]
-    Main --> DS["DishService"]
-    Main --> OS["OrderService"]
-    Main --> RS["ReportService"]
-
-    LS --> FUD["FileUserDAO<br/>📄 users.txt"]
-    DS --> FDD["FileDishDAO<br/>📄 dishes.txt"]
-    OS --> OD["OrderDAO<br/>📄 orders.txt"]
-    RS --> OD
-
-    LS --> SV["StudentView<br/>(学生界面)"]
-    DS --> SV
-    OS --> SV
-    
-    RS --> AV["AdminView<br/>(管理员界面)"]
-```
+![系统架构图](docs/architecture.png)
 
 **说明**：
 - **数据层**：使用文件存储（`data/` 目录），无需安装数据库。
@@ -175,5 +157,3 @@ mvn test -Dtest=ReportServiceTest
 - 樊世奇（学号：9107123050）- Product Owner (PO)
 - 李晨希（学号：9109223109）- Scrum Master (SM)
 - 郑茹怡（学号：9109223175）- Development Team
-```
-
