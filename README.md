@@ -1,3 +1,4 @@
+以下是**完整修正版 README.md**，可以直接复制粘贴到你的 GitHub 仓库：
 
 ```markdown
 # 校园食堂订餐系统
@@ -9,33 +10,23 @@
 
 ## 📐 系统架构图（模块关系）
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         Main (依赖组装入口)                      │
-│              创建 DAO → 注入 Service → 注入 View                 │
-└───────────────────────────────┬─────────────────────────────────┘
-                                │
-        ┌───────────────────────┼───────────────────────┐
-        ▼                       ▼                       ▼
-┌───────────────┐      ┌───────────────┐      ┌───────────────┐
-│  LoginService │      │  DishService  │      │ OrderService  │
-│  (UserDAO)    │      │  (DishDAO)    │      │ (OrderDAO)    │
-└───────┬───────┘      └───────┬───────┘      └───────┬───────┘
-        │                      │                      │
-        ▼                      ▼                      ▼
-┌───────────────┐      ┌───────────────┐      ┌───────────────┐
-│ FileUserDAO   │      │ FileDishDAO   │      │   OrderDAO    │
-│ (users.txt)   │      │ (dishes.txt)  │      │ (orders.txt)  │
-└───────────────┘      └───────────────┘      └───────────────┘
+```mermaid
+flowchart TD
+    Main["Main (依赖组装入口)"] --> LS["LoginService"]
+    Main --> DS["DishService"]
+    Main --> OS["OrderService"]
+    Main --> RS["ReportService"]
 
-                    ┌─────────────────┐
-                    │  ReportService  │
-                    │   (OrderDAO)    │
-                    └────────┬────────┘
-                             ▼
-                    ┌───────────────┐
-                    │   AdminView   │
-                    └───────────────┘
+    LS --> FUD["FileUserDAO<br/>📄 users.txt"]
+    DS --> FDD["FileDishDAO<br/>📄 dishes.txt"]
+    OS --> OD["OrderDAO<br/>📄 orders.txt"]
+    RS --> OD
+
+    LS --> SV["StudentView<br/>(学生界面)"]
+    DS --> SV
+    OS --> SV
+    
+    RS --> AV["AdminView<br/>(管理员界面)"]
 ```
 
 **说明**：
@@ -113,14 +104,14 @@ mvn exec:java -Dexec.mainClass="com.example.canteen.Main"
 | `dao/UserDAO.java` | 用户数据接口 | `findByUsername()`, `save()`, `delete()` |
 | `dao/DishDAO.java` | 菜品数据接口 | `findById()`, `findAll()`, `save()`, `delete()` |
 | `dao/OrderDAO.java` | 订单数据操作 | `readAllOrders()`, `saveOrder()`, `generateOrderId()` |
-| `dao/impl/FileUserDAO` | 用户文件存储实现 | 读写 `users.txt` |
-| `dao/impl/FileDishDAO` | 菜品文件存储实现 | 读写 `dishes.txt` |
-| `service/LoginService` | 登录认证 | `login()`, `getTestAccounts()` |
-| `service/DishService` | 菜品管理 | `getAllDishes()`, `printDishes()` |
-| `service/OrderService` | 订单创建与提交 | `createOrder()`, `submitOrder()` |
-| `service/ReportService` | 统计报表 | `getStatistics()`, `printReport()` |
-| `view/StudentView` | 学生端界面 | `run()`, `showOrderMenu()` |
-| `view/AdminView` | 管理员端界面 | `run()` |
+| `dao/impl/FileUserDAO.java` | 用户文件存储实现 | 读写 `users.txt` |
+| `dao/impl/FileDishDAO.java` | 菜品文件存储实现 | 读写 `dishes.txt` |
+| `service/LoginService.java` | 登录认证 | `login()`, `getTestAccounts()` |
+| `service/DishService.java` | 菜品管理 | `getAllDishes()`, `printDishes()` |
+| `service/OrderService.java` | 订单创建与提交 | `createOrder()`, `submitOrder()` |
+| `service/ReportService.java` | 统计报表 | `getStatistics()`, `printReport()` |
+| `view/StudentView.java` | 学生端界面 | `run()`, `showOrderMenu()` |
+| `view/AdminView.java` | 管理员端界面 | `run()` |
 | `Main.java` | 应用入口 & 依赖组装 | `main()`, `handleLogin()` |
 | `mock/ApiMockTest.java` | API 契约测试 | 模拟前后端分离场景 |
 | `.github/workflows/ci.yml` | CI 流水线 | 自动编译 + 测试 |
@@ -187,3 +178,6 @@ mvn test -Dtest=ReportServiceTest
 - 李晨希（学号：9109223109）- Scrum Master (SM)
 - 郑茹怡（学号：9109223175）- Development Team
 ```
+
+---
+
