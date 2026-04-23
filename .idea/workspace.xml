@@ -11,11 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bcf460d0-8c67-464f-bbd4-e92fe5836b1f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/frontend-mock/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/canteen/mock/ApiMockTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/canteen/service/LoginServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/canteen/service/ReportServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/openai.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/canteen-1.0-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/canteen-1.0-SNAPSHOT.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +27,8 @@
         <option value="Jspx File" />
         <option value="Jsp File" />
         <option value="JavaScript File" />
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -66,6 +65,8 @@
     "Application.Main.executor": "Run",
     "DefaultHtmlFileTemplate": "HTML File",
     "JUnit.All in canteen.executor": "Run",
+    "JUnit.LoginServiceTest.executor": "Run",
+    "JUnit.service in canteen.executor": "Run",
     "JavaScript Debug.admit-stats.html.executor": "Run",
     "JavaScript Debug.index.html.executor": "Run",
     "JavaScript Debug.login.html.executor": "Run",
@@ -87,11 +88,34 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.service in canteen">
     <configuration name="All in canteen" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="canteen" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LoginServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="canteen" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.canteen.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.canteen.service" />
+      <option name="MAIN_CLASS_NAME" value="com.example.canteen.service.LoginServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="service in canteen" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="canteen" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/src/test/java/com/example/canteen/service" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -191,6 +215,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.service in canteen" />
+        <item itemvalue="JUnit.LoginServiceTest" />
         <item itemvalue="JUnit.All in canteen" />
       </list>
     </recent_temporary>
@@ -216,6 +242,9 @@
       <workItem from="1776233431216" duration="768000" />
       <workItem from="1776237408809" duration="2336000" />
       <workItem from="1776310979849" duration="2642000" />
+      <workItem from="1776314239008" duration="88000" />
+      <workItem from="1776870746021" duration="22000" />
+      <workItem from="1776907839365" duration="1253000" />
     </task>
     <servers />
   </component>
